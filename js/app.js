@@ -84,7 +84,7 @@ class Conversor {
         }
       }
     }
-    retornoTela.innerHTML = `<p class="re">Valor inválido<br> Digite entre 1 e 3999</p>`;
+    retornoTela.innerHTML = `<p class="re">${resultado}</p>`;
   }
 }
 
