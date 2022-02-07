@@ -47,7 +47,7 @@ class Conversor {
   convert_a() {
     retornoTela.innerHTML = ``;
     document.getElementById("input-value-a").value = ""; //traz os numeros romanos
-    numero = document.getElementById("input-value-r").value; //traz os numeros romanos
+    numero = document.getElementById("input-value-r").value; //traz os numeros romanos.
 
     resultado = 0;
 
