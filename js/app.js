@@ -1,5 +1,4 @@
 let retornoTela = document.getElementById("resulta"); // envia para a tela o resultado
-
 let numero;
 let resultado = "";
 /*
@@ -31,15 +30,19 @@ class Conversor {
 
     resultado = "";
 
-    if (numero < 1 || numero > 3999) {
-      retornoTela.innerHTML = `<p class="re">Valor inválido<br> Digite entre 1 e 3999</p>`;
+    if (numero == "") {
+      this.toString("");
+    } else if (isNaN(numero)) {
+      this.toString("Valor inválido<br> Digite entre 1 e 3999");
+    } else if (numero < 1 || numero > 3999) {
+      this.toString("Valor inválido<br> Digite entre 1 e 3999");
     } else {
       for (let indice in num_r) {
         while (numero >= num_r[indice]) {
           resultado += indice;
           numero -= num_r[indice];
         }
-        retornoTela.innerHTML = `<p class="re">${resultado}</p>`;
+        this.toString(resultado);
       }
     }
   }
@@ -52,39 +55,58 @@ class Conversor {
     resultado = 0;
 
     let arr = numero.split("");
+    this.reorder(arr, ["CM", "CD", "XC", "XL", "IX", "IV"]);
 
-    for (let x = 0; x < arr.length; x++) {
-      if (arr.length - x >= 1) {
-        if (arr[x] == "C" && arr[x + 1] == "M") {
-          arr[x] = "CM";
-          arr.splice(x + 1, 1);
-        } else if (arr[x] == "C" && arr[x + 1] == "D") {
-          arr[x] = "CD";
-          arr.splice(x + 1, 1);
-        } else if (arr[x] == "X" && arr[x + 1] == "C") {
-          arr[x] = "XC";
-          arr.splice(x + 1, 1);
-        } else if (arr[x] == "X" && arr[x + 1] == "L") {
-          arr[x] = "XL";
-          arr.splice(x + 1, 1);
-        } else if (arr[x] == "I" && arr[x + 1] == "X") {
-          arr[x] = "IX";
-          arr.splice(x + 1, 1);
-        } else if (arr[x] == "I" && arr[x + 1] == "V") {
-          arr[x] = "IV";
-          arr.splice(x + 1, 1);
+    if (this.repeat_check(arr)) {
+      this.toString("ERRO!<br>Número não existe");
+    } else {
+      for (let indice in num_r) {
+        for (let indice_1 in arr) {
+          if (indice == arr[indice_1]) {
+            resultado += num_r[indice];
+          }
+        }
+      }
+      this.toString(resultado);
+    }
+  }
+
+  reorder(array, arrayC) {
+    let a, b, c, i, j;
+
+    for (i = 0; i < array.length; i++) {
+      for (j in arrayC) {
+        a = arrayC[j].split("");
+        b = a[0];
+        c = a[1];
+
+        if (array[i] == b && array[i + 1] == c) {
+          array[i] = `${b}${c}`;
+          array.splice(i + 1, 1);
         }
       }
     }
+    return array;
+  }
 
-    for (let indice in num_r) {
-      for (let indice_1 in arr) {
-        if (indice == arr[indice_1]) {
-          resultado += num_r[indice];
+  repeat_check(array) {
+    for (let i in array) {
+      if (array.length - Number(i) > 3) {
+        if (
+          array[Number(i)] == array[Number(i) + 1] &&
+          array[i] == array[Number(i) + 2] &&
+          array[i] == array[Number(i) + 3]
+        ) {
+          return true;
+        } else {
+          return false;
         }
       }
     }
-    retornoTela.innerHTML = `<p class="re">${resultado}</p>`;
+  }
+
+  toString(mensagem) {
+    retornoTela.innerHTML = `<p class="re">${mensagem}</p>`;
   }
 }
 
